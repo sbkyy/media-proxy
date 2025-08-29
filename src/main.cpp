@@ -4,7 +4,7 @@
 class InitHelper{
 public:
     InitHelper(){
-        hlog_set_file("myapp.log");  // 设置日志文件
+        hlog_set_file("mediaProxy.log");  // 设置日志文件
         hlog_set_level(LOG_LEVEL_DEBUG);
 
         hlogi("Program compiled at %s %s", __DATE__, __TIME__);
@@ -13,10 +13,13 @@ public:
 
 static InitHelper initHelper;
 
+// ./mediaProxt 0 8090
 int main(int argc, char **argv) {
     int bflage = 0;
-	if(argc >= 2){
-		bflage = atoi(argv[1]);
+    int port = 8090;
+	if(argc >= 3){
+        bflage = atoi(argv[1]);
+		port = atoi(argv[2]);
 		hlogi("bflage: %d, %s\n", bflage, argv[1]);
 	}
 
@@ -33,7 +36,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    HttpServiceHepler::Instance().Start(8090);
+    HttpServiceHepler::Instance().Start(port);
     
     while( HttpServiceHepler::Instance().IsRun()){
         std::this_thread::sleep_for(std::chrono::seconds(1));
