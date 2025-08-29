@@ -42,8 +42,8 @@ static int exec_ffmpeg(TaskData& taskData){
             break;
         case 0:
         {
-            char *argvs[32] = {"-report","-analyzeduration","15M",NULL};
-            int offset = 3;
+            char *argvs[32] = {"ffmpeg", "-report","-analyzeduration","15M",NULL};
+            int offset = 4;
             argvs[offset++] = (char*)"-re";
             argvs[offset++] = (char*)"-probesize";
             argvs[offset++] = (char*)"80K";  

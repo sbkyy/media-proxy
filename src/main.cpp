@@ -1,6 +1,5 @@
 #include "HttpServiceHelper.h"
-#include <thread>
-#include <chrono>
+#include "Deamon.h"
 
 class InitHelper{
 public:
@@ -14,7 +13,26 @@ public:
 
 static InitHelper initHelper;
 
-int main() {
+int main(int argc, char **argv) {
+    int bflage = 0;
+	if(argc >= 2){
+		bflage = atoi(argv[1]);
+		hlogi("bflage: %d, %s\n", bflage, argv[1]);
+	}
+
+	if(bflage <= 0)
+		daemonize(1,0);
+	if(signal(SIGCHLD,SIG_IGN) == SIG_ERR)
+    {
+        hlogi("signal SIGCHLD error");
+        exit(EXIT_FAILURE);
+    }
+	if(signal(SIGPIPE,SIG_IGN) == SIG_ERR)
+    {
+        hlogi("signal SIGPIPE error");
+        exit(EXIT_FAILURE);
+    }
+
     HttpServiceHepler::Instance().Start(8090);
     
     while( HttpServiceHepler::Instance().IsRun()){
